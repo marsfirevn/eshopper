@@ -17,19 +17,17 @@ use Illuminate\Foundation\Auth\Access\Authorizable;
 
 /**
  * Class Admin
- *
  * @package App\Entities
  * @property int $id
  * @property string $email
  * @property string $password
  * @property string $first_name
  * @property string $last_name
- * @property string $address
+ * @property string $avatar
+ * @property string $remember_token
  * @property bool $is_super
- * @property bool $invite_token
- * @property bool $remember_token
- * @property bool $active
- * @property bool $verified
+ * @property bool $is_verify
+ * @property bool $is_active
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */
@@ -46,12 +44,11 @@ class Admin extends BaseUser implements
         'password',
         'first_name',
         'last_name',
-        'address',
         'is_super',
-        'invite_token',
         'remember_token',
-        'active',
-        'verified',
+        'is_verify',
+        'is_active',
     ];
-    protected $hidden = ['password', 'invite_token', 'remember_token'];
+    protected $hidden = ['password', 'remember_token'];
+    protected $casts = ['is_super' => 'bool', 'is_verify' => 'bool', 'is_active' => 'bool'];
 }
