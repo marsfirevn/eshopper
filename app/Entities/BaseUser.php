@@ -13,14 +13,14 @@ use Illuminate\Support\Facades\Storage;
 
 /**
  * Class BaseUser
- *
  * @package App\Core\Entities
  * @property int $id
  * @property string $email
  * @property string $first_name
  * @property string $last_name
- * @property bool $active
- * @property bool $verified
+ * @property string $avatar
+ * @property bool $is_verify
+ * @property bool $is_active
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */
@@ -29,7 +29,6 @@ abstract class BaseUser extends Model implements
 {
     /**
      * Get type of user
-     *
      * @return string
      */
     public function getType()
@@ -41,7 +40,6 @@ abstract class BaseUser extends Model implements
 
     /**
      * Check is admin
-     *
      * @return bool
      */
     public function isAdmin()
@@ -51,7 +49,6 @@ abstract class BaseUser extends Model implements
 
     /**
      * Check user is customer
-     *
      * @return bool
      */
     public function isCustomer()
@@ -61,7 +58,6 @@ abstract class BaseUser extends Model implements
 
     /**
      * Get name of user
-     *
      * @return string
      */
     public function getName()
@@ -71,7 +67,6 @@ abstract class BaseUser extends Model implements
 
     /**
      * Get identifier
-     *
      * @return string
      */
     public function getIdentifier()

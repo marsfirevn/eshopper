@@ -16,6 +16,9 @@
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./app</directory>
+            <exclude>
+                <directory suffix=".php">./app/Http/Requests</directory>
+            </exclude>
         </whitelist>
     </filter>
     <php>
@@ -23,5 +26,6 @@
         <env name="CACHE_DRIVER" value="array"/>
         <env name="SESSION_DRIVER" value="array"/>
         <env name="QUEUE_DRIVER" value="sync"/>
+        <env name="DB_CONNECTION" value="mysql_test"/>
     </php>
 </phpunit>

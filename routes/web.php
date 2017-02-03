@@ -11,6 +11,14 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::group(['domain' => env('APP_DOMAIN')], function () {
+    Route::get('/', function () {
+        return view('welcome');
+    });
+});
+
+Route::group(['domain' => 'admin.' . env('APP_DOMAIN')], function () {
+    Route::get('/', function () {
+        return view('welcome');
+    });
 });
