@@ -1,0 +1,7 @@
+/**
+ * Created by huukimit on 04/02/2017.
+ */
+
+export default {
+    logo: 'images/logo.png'
+}
