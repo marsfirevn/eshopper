@@ -1,0 +1,26 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700);
+@import "vendor/bootstrap";
+@import "vendor/material-icon";
+@import "vendor/react-widgets";
+@import "vendor/toastr";
+@import "common/mixins/mixin";
+
+* {
+    font-family: 'Open Sans', "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+}
+
+.required:after {
+    display: inline-block;
+    content: '*';
+    color: red;
+    margin: 0 5px;
+}
+
+.center {
+    @include flexBox();
+    @include flex-direction(column);
+    @include align-items(center);
+    width: 100%;
+    height: auto;
+}

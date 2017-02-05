@@ -17,14 +17,14 @@ class Navigation extends React.Component {
 
     render() {
         return (
-            <Paper className="nav-wrapper" zDepth={0}>
-                <div className="nav">
+            <Paper className="sidebar-wrapper" zDepth={0}>
+                <div className="nav-wrapper">
                     <div className="logo">
                         <div className="logo-image"/>
                     </div>
 
-                    <div className="menu">
-                        <Menu className="main-menu">
+                    <div className="nav">
+                        <Menu className="nav-content">
                             <MenuItem primaryText="Preview" leftIcon={<RemoveRedEye />}/>
                             <MenuItem primaryText="Share" leftIcon={<PersonAdd />}/>
                             <MenuItem primaryText="Get links" leftIcon={<ContentLink />}/>

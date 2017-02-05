@@ -19,6 +19,14 @@ Route::group(['domain' => env('APP_DOMAIN')], function () {
 
 Route::group(['domain' => 'admin.' . env('APP_DOMAIN')], function () {
     Route::group(['namespace' => 'Admin'], function () {
+        // Authentication:
+        Route::get('/auth', 'Auth\LoginController@getAuth')->name('admin.auth.getAuth');
+        Route::post('/login', 'Auth\LoginController@login')->name('admin.auth.postLogin');
+        Route::get('/logout', 'Auth\LoginController@logout')->name('admin.auth.logout');
+
+        // Admin page:
         Route::get('/', 'HomeController@index')->name('admin.home.index');
+        Route::get('/login', 'HomeController@index')->name('admin.auth.getLogin');
+        Route::get('/dashboard', 'HomeController@index')->name('dashboard');
     });
 });

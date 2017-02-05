@@ -10,6 +10,7 @@ namespace App\Entities;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use App\Entities\Contracts\UserProvider;
 
 /**
  * Class BaseUser
@@ -24,8 +25,7 @@ use Illuminate\Support\Facades\Storage;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */
-abstract class BaseUser extends Model implements
-    UserProvider
+abstract class BaseUser extends Model implements UserProvider
 {
     /**
      * Get type of user

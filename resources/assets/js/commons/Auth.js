@@ -7,10 +7,10 @@ export class Auth {
             url: '/auth',
             type: 'GET',
             success: (response) => {
-                this.loggedIn = response.auth.loggedIn;
-                this.user = response.auth.user;
+                this.loggedIn = response.loggedIn;
+                this.user = response.user;
                 if (typeof this.updateAuth === 'function') {
-                    this.updateAuth(response.auth.user);
+                    this.updateAuth(response.user);
                 }
                 if (typeof callback === 'function') {
                     callback(response);
@@ -59,9 +59,9 @@ export class Auth {
     }
 }
 
-export const persistAuth = (ComposedComponent, auth) => class PersistAuth extends React.Component {
+export const authenticate = (ComposedComponent, auth) => class Authenticate extends React.Component {
     render() {
-        return <ComposedComponent {...this.props} auth={auth} />
+        return <ComposedComponent {...this.props} auth={auth}/>
     }
 };
 

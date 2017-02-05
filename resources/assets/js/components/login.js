@@ -10,6 +10,7 @@ import Config from '../config';
 class Login extends React.Component {
     constructor(props) {
         super(props);
+        autobind(this);
 
         this.state = {
             email: '',
@@ -17,13 +18,17 @@ class Login extends React.Component {
             errors: {},
             loginDisabled: true
         };
-
-        autobind(this);
         this.redirectAfterLogin = this.props.route.redirect || '';
     }
 
-    validateLogin(data) {
-        return data.email.length > 0 && data.password.length > 0;
+    componentDidMount() {
+        let auth = this.context.auth;
+
+        if (auth && auth.loggedIn) {
+            this.props.router.push(this.redirectAfterLogin);
+        } else {
+            this.refs.email.focus();
+        }
     }
 
     login() {
@@ -41,6 +46,20 @@ class Login extends React.Component {
                 this.props.router.push(this.redirectAfterLogin);
             }
         });
+    }
+
+    onTextFieldChange(attr, event) {
+        let state = {};
+        state[attr] = event.target.value;
+        this.setState(state, () => {
+            this.setState({loginDisabled: !this.validateLogin(this.state)});
+        });
+    }
+
+    onKeyDown(event) {
+        if (event.keyCode == 13) {
+            this.login();
+        }
     }
 
     shouldBeSendEmail(event) {
@@ -65,27 +84,8 @@ class Login extends React.Component {
         });
     }
 
-    onTextFieldChange(attr, event) {
-        let state = {};
-        state[attr] = event.target.value;
-        this.setState(state, () => {
-            this.setState({loginDisabled: !this.validateLogin(this.state)});
-        });
-    }
-
-    onKeyDown(event) {
-        if (event.keyCode == 13) {
-            this.login();
-        }
-    }
-
-    componentDidMount() {
-        let auth = this.context.auth;
-        if (auth && auth.loggedIn) {
-            this.props.router.push(this.redirectAfterLogin);
-        } else {
-            this.refs.email.focus();
-        }
+    validateLogin(data) {
+        return data.email.length > 0 && data.password.length > 0;
     }
 
     render() {
@@ -116,7 +116,6 @@ class Login extends React.Component {
                                 ref="email"
                                 hintText="Enter your email"
                                 fullWidth={true}
-                                underlineShow={false}
                                 errorStyle={{textAlign: 'left'}}
                                 errorText={this.state.errors.email || this.state.errors.error}
                                 onChange={this.onTextFieldChange.bind(this, 'email')}
@@ -132,7 +131,6 @@ class Login extends React.Component {
                                 value={this.state.password}
                                 hintText="Enter your password"
                                 fullWidth={true}
-                                underlineShow={false}
                                 errorStyle={{textAlign: 'left'}}
                                 errorText={this.state.errors.password}
                                 onChange={this.onTextFieldChange.bind(this, 'password')}
@@ -140,16 +138,22 @@ class Login extends React.Component {
                             />
                         </div>
                     </div>
-                    <div className="login-forgot-password">
-                        <Link to="/password/email" onClick={this.shouldBeSendEmail}>Forgot your password?</Link>
+                    <div className="center">
+                        <Link
+                            to="/password/email"
+                            onClick={this.shouldBeSendEmail}
+                            className="forgot-password"
+                        >
+                            Forgot your password?
+                        </Link>
+                        <RaisedButton
+                            className="btn-login"
+                            label="Login"
+                            primary={true}
+                            onClick={this.login}
+                            disabled={this.state.loginDisabled}
+                        />
                     </div>
-                    <RaisedButton
-                        className="btn-login"
-                        label="Login"
-                        primary={true}
-                        onClick={this.login}
-                        disabled={this.state.loginDisabled}
-                    />
                 </div>
             </div>
         );
@@ -157,7 +161,8 @@ class Login extends React.Component {
 }
 
 Login.contextTypes = {
-    app: React.PropTypes.object
+    app: React.PropTypes.object,
+    auth: React.PropTypes.object
 };
 
 export default withRouter(Login);
