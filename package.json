@@ -11,8 +11,8 @@
 		"prod": "gulp --production",
 		"dev": "gulp watch",
 		"gulp": "gulp",
-		"phpcs": "ckphp app",
-		"eslint": "ckjs"
+		"eslint": "./node_modules/.bin/eslint resources/assets/js",
+		"phpunit": "./vendor/bin/phpunit"
 	},
 	"devDependencies": {
 		"babel-eslint": "^7.1.1",
