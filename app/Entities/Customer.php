@@ -2,6 +2,7 @@
 
 namespace App\Entities;
 
+use App\Entities\Contracts\UserProvider;
 use Carbon\Carbon;
 
 /**

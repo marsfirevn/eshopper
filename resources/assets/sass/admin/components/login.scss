@@ -1,0 +1,46 @@
+.login {
+    @include flexBox();
+    @include flex-direction(column);
+    @include align-items(center);
+    background: linear-gradient(to top, #2f6fb4, #39c7e9);
+    width: 100%;
+    min-height: 100vh;
+
+    .logo-icon {
+        margin-top: 35px;
+        margin-bottom: 35px;
+        height: 60px;
+        width: auto;
+    }
+    .login-title {
+        .title {
+            font-size: 32px;
+            color: white;
+            font-family: "Open Sans", Arial, "Helvetica Neue", Helvetica, sans-serif;
+        }
+        .underline {
+            width: 60%;
+            opacity: 0.55;
+            background: white;
+            margin-top: 10px;
+            margin-bottom: 35px;
+        }
+    }
+
+    .login-box {
+        @include boxShadow(0 0 20px 0 rgba(0, 0, 0, 0.3));
+        background: white;
+        padding: 25px 50px;
+        min-width: 530px;
+
+        .forgot-password {
+            display: inline-block;
+            font-size: 12px;
+            margin: 10px;
+        }
+
+        .btn-login {
+            margin: 10px;
+        }
+    }
+}

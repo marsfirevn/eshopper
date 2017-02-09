@@ -4,54 +4,64 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Navigation from './navigation';
 import Header from './header';
-import {white, grey700} from 'material-ui/styles/colors';
-
-const mainColor = '#00BBE5';
-const customTheme = {
-    palette: {
-        primary1Color: mainColor,
-        primary2Color: mainColor,
-        accent1Color: mainColor
-    },
-    appBar: {
-        color: white,
-        textColor: mainColor
-    },
-    flatButton: {
-        secondaryTextColor: grey700
-    },
-    tableHeaderColumn: {
-        textColor: white,
-        height: '46px'
-    },
-    inkBar: {
-        backgroundColor: white
-    }
-};
-
-const muiTheme = getMuiTheme(customTheme);
+import defaultTheme from '../../theme/default-theme';
 
 class App extends React.Component {
     constructor(props) {
         super(props);
         autobind(this);
+
+        this.state = {
+            auth: props.auth.user
+        };
+    }
+
+    componentWillMount() {
+        let auth = this.props.auth;
+        auth.onChange(this.onAuthUpdated);
+    }
+
+    onAuthUpdated(auth) {
+        this.setState({auth});
+    }
+
+    getChildContext() {
+        return {
+            app: this,
+            auth: this.state.auth
+        }
+    }
+
+    getAuth(callback) {
+        this.props.auth.getAuth(callback);
+    }
+
+    login(credential, callback) {
+        this.props.auth.login(credential, callback);
     }
 
     render() {
         let pathname = this.props.location.pathname;
+        let loggedIn = this.props.auth.loggedIn;
 
         return (
-            <MuiThemeProvider muiTheme={muiTheme}>
+            <MuiThemeProvider muiTheme={getMuiTheme(defaultTheme)}>
                 <div className="wrapper">
-                    <Navigation pathName={pathname}/>
+                    {loggedIn ? <Navigation pathName={pathname}/> : null}
 
                     <div className="content-wrapper">
-                        <Header/>
+                        {loggedIn ? <Header/> : null}
+                        {this.props.children}
                     </div>
                 </div>
             </MuiThemeProvider>
         );
     }
 }
+
+App.childContextTypes = {
+    app: React.PropTypes.object,
+    auth: React.PropTypes.object
+};
 
 export default App;

@@ -1,6 +1,4 @@
 import $ from 'jquery';
-import _ from 'lodash';
-import config from '../config';
 
 export default {
     getErrorMessages(errors) {

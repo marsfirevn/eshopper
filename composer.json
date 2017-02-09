@@ -1,7 +1,10 @@
 {
     "name": "laravel/laravel",
     "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "keywords": [
+        "framework",
+        "laravel"
+    ],
     "license": "MIT",
     "type": "project",
     "require": {
@@ -27,8 +30,13 @@
     },
     "autoload-dev": {
         "classmap": [
-            "tests/TestCase.php"
-        ]
+            "tests/TestCase.php",
+            "tests/AdminTestCase.php",
+            "tests/WebTestCase.php"
+        ],
+        "psr-4": {
+            "Tests\\": "Testing/"
+        }
     },
     "scripts": {
         "post-root-package-install": [
