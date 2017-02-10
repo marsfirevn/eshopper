@@ -3,5 +3,6 @@
  */
 
 export default {
-    logo: 'images/logo.png'
+    logo: '/images/logo.png',
+    webName: 'E-shopper'
 }

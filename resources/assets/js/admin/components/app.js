@@ -5,6 +5,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Navigation from './navigation';
 import Header from './header';
 import defaultTheme from '../../theme/default-theme';
+import {Paper} from 'material-ui';
 
 class App extends React.Component {
     constructor(props) {
@@ -41,17 +42,20 @@ class App extends React.Component {
     }
 
     render() {
-        let pathname = this.props.location.pathname;
+        let pathName = this.props.location.pathname;
         let loggedIn = this.props.auth.loggedIn;
 
         return (
             <MuiThemeProvider muiTheme={getMuiTheme(defaultTheme)}>
                 <div className="wrapper">
-                    {loggedIn ? <Navigation pathName={pathname}/> : null}
+                    {loggedIn ? <Navigation pathName={pathName}/> : null}
 
                     <div className="content-wrapper">
-                        {loggedIn ? <Header/> : null}
-                        {this.props.children}
+                        {loggedIn ? <Header pathName={pathName}/> : null}
+
+                        <Paper className="main-body" zDepth={0}>
+                            {this.props.children}
+                        </Paper>
                     </div>
                 </div>
             </MuiThemeProvider>

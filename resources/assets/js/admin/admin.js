@@ -7,8 +7,9 @@ import Helper from '../commons/Helper';
 import {Auth, authenticate} from '../commons/Auth';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import App from './components/app';
-import Login from '../components/login';
+import Login from './pages/auth/login';
 import Dashboard from './pages/dashboard';
+import ResetPassword from './pages/auth/reset-password';
 
 injectTapEventPlugin();
 
@@ -57,6 +58,7 @@ let routes = (
                 redirect=''
                 onEnter={authenticated}
             />
+            <Route path="password/email" component={ResetPassword}/>
 
             <Route path="" onEnter={requireAuth}>
                 <IndexRedirect to='dashboard'/>

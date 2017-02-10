@@ -13,8 +13,8 @@ export default {
         accent1Color: mainColor
     },
     appBar: {
-        color: white,
-        textColor: mainColor
+        color: mainColor,
+        textColor: white
     },
     flatButton: {
         secondaryTextColor: grey700

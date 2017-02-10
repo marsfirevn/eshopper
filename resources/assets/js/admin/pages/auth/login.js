@@ -3,9 +3,7 @@ import {withRouter, Link} from 'react-router';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import autobind from 'react-autobind';
-import $ from 'jquery';
-import toastr from 'toastr';
-import Config from '../config';
+import Config from '../../../config';
 
 class Login extends React.Component {
     constructor(props) {
@@ -19,6 +17,14 @@ class Login extends React.Component {
             loginDisabled: true
         };
         this.redirectAfterLogin = this.props.route.redirect || '';
+    }
+
+    componentWillMount() {
+        let email = this.props.router.location.query.email;
+
+        if (email) {
+            this.setState({email});
+        }
     }
 
     componentDidMount() {
@@ -62,30 +68,8 @@ class Login extends React.Component {
         }
     }
 
-    shouldBeSendEmail(event) {
-        let email = this.refs.email.getValue();
-        if (email.length > 0 && this.state.password.length == 0) {
-            event.preventDefault();
-            this.sendEmailForgotPassword(email);
-        }
-    }
-
-    sendEmailForgotPassword(email) {
-        $.ajax({
-            url: '/password/email',
-            type: 'POST',
-            data: {email},
-            success: (response) => {
-                toastr.success(response);
-            },
-            error: (response) => this.setState({
-                errors: response.responseJSON
-            })
-        });
-    }
-
     validateLogin(data) {
-        return data.email.length > 0 && data.password.length > 0;
+        return data.email.length > 0 && data.password.length > 0 && Helper.validateEmail(data.email);
     }
 
     render() {
@@ -139,13 +123,7 @@ class Login extends React.Component {
                         </div>
                     </div>
                     <div className="center">
-                        <Link
-                            to="/password/email"
-                            onClick={this.shouldBeSendEmail}
-                            className="forgot-password"
-                        >
-                            Forgot your password?
-                        </Link>
+                        <Link to="/password/email" className="forgot-password">Forgot your password?</Link>
                         <RaisedButton
                             className="btn-login"
                             label="Login"
