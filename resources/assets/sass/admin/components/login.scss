@@ -13,6 +13,8 @@
         width: auto;
     }
     .login-title {
+        text-align: center;
+
         .title {
             font-size: 32px;
             color: white;
@@ -24,6 +26,11 @@
             background: white;
             margin-top: 10px;
             margin-bottom: 35px;
+        }
+        .sub-title {
+            color: white;
+            margin-bottom: 35px;
+            font-size: 14px;
         }
     }
 

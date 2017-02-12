@@ -1,0 +1,26 @@
+.header {
+    height: $height-header;
+    color: $main-color;
+    font-size: 1.3em;
+    text-align: center;
+    line-height: $height-header;
+    position: relative;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+
+    .header-menu {
+        .btn-toggle-menu {
+            height: $height-header !important;
+            * {
+                color: white !important;
+                font-size: 22px !important;
+                text-transform: capitalize !important;
+                font-weight: 300 !important;
+            }
+        }
+    }
+}
+
+.user-menu-wrapper * {
+    font-size: 16px;
+}
