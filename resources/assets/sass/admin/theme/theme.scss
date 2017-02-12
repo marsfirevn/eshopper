@@ -41,10 +41,53 @@ a {
         height: 100vh;
         width: 100%;
         left: 0;
+        overflow: hidden;
     }
 
     .nav + .content-wrapper {
         width: calc(100% - 256px); // $width-sidebar
         left: $width-sidebar;
+    }
+
+    div:nth-child(2)[class='content-wrapper'] {
+        background: #e8e8e8;
+
+        .main-body {
+            margin: 16px;
+            height: calc(100vh - 98px);
+            overflow: hidden;
+
+            .page-header {
+                padding: 12px;
+                @include flexBox;
+                @include align-items(center);
+                @include justify-content(space-between);
+
+                .page-title {
+                    font-family: $font-family-base;
+                    font-size: 20px;
+                    font-weight: 400;
+                    margin: 0;
+                }
+            }
+
+            .form {
+                height: calc(100vh - 98px); // - padding main-body - height page-header
+                overflow: auto;
+
+                .page-header {
+                    margin: 0 24px 24px 24px;
+                    padding-bottom: 12px;
+                    border-bottom: solid 1px rgba(0, 0, 0, 0.6);
+                    .page-title {
+                        font-size: 24px;
+                    }
+                }
+
+                .content {
+                    padding: 24px;
+                }
+            }
+        }
     }
 }

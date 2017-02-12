@@ -35,8 +35,8 @@ class Navigation extends React.Component {
                         <MenuItem primaryText="Product" onTouchTap={this.goTo.bind(this, '/products')}/>
                         <MenuItem primaryText="Category" onTouchTap={this.goTo.bind(this, '/categories')}/>
                         <Divider/>
-                        <MenuItem primaryText="Customer" onTouchTap={this.goTo.bind(this, '/products')}/>
-                        <MenuItem primaryText="Admin" onTouchTap={this.goTo.bind(this, '/products')}/>
+                        <MenuItem primaryText="Customer" onTouchTap={this.goTo.bind(this, '/customers')}/>
+                        <MenuItem primaryText="Admin" onTouchTap={this.goTo.bind(this, '/admins')}/>
                         <Divider/>
                     </Menu>
                 </div>

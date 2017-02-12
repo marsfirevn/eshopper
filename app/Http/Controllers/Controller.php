@@ -32,7 +32,7 @@ abstract class Controller extends BaseController
      * Get current auth
      * @return Authenticatable|BaseUser|null
      */
-    protected function auth()
+    public function auth()
     {
         return Auth::guard($this->getGuard())->user();
     }
