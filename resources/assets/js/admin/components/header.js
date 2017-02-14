@@ -1,6 +1,7 @@
 import React from 'react';
 import autobind from 'react-autobind';
 import {AppBar, Popover, Menu, MenuItem, FlatButton} from 'material-ui';
+import {withRouter} from 'react-router';
 
 class Header extends React.Component {
     constructor(props) {
@@ -22,7 +23,8 @@ class Header extends React.Component {
     }
 
     goToProfile() {
-        this.props.router.push('/update-profile');
+        this.props.router.push('/profile');
+        this.closeMenu();
     }
 
     render() {
@@ -80,4 +82,4 @@ Header.contextTypes = {
     auth: React.PropTypes.object
 };
 
-export default Header;
+export default withRouter(Header);

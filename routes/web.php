@@ -27,12 +27,24 @@ Route::group(['domain' => 'admin.' . env('APP_DOMAIN')], function () {
         Route::group(['prefix' => 'password'], function () {
             Route::get('email', 'HomeController@index')->name('admin.auth.password.getResetForm');
             Route::post('email', 'Auth\PasswordController@postEmail')->name('admin.auth.password.email');
-            Route::post('reset', 'Auth\PasswordController@reset')->name('admin.auth.password.reset');
+            Route::post('reset', 'Auth\PasswordController@reset')
+                ->name('admin.auth.password.reset')
+                ->middleware('auth');
+        });
+
+        Route::group(['prefix' => 'profile'], function () {
+            Route::get('/', 'HomeController@index')->name('admin.profile.showForm');
+            Route::put('/', 'ProfileController@update')->name('admin.profile.update');
         });
 
         // Admin page:
         Route::get('/', 'HomeController@index')->name('admin.home.index');
         Route::get('/login', 'HomeController@index')->name('admin.auth.getLogin');
         Route::get('/dashboard', 'HomeController@index')->name('dashboard');
+        Route::get('/orders', 'HomeController@index')->name('admin.order.list');
+        Route::get('/products', 'HomeController@index')->name('admin.product.list');
+        Route::get('/categories', 'HomeController@index')->name('admin.category.list');
+        Route::get('/customers', 'HomeController@index')->name('admin.customer.list');
+        Route::get('/admins', 'HomeController@index')->name('admin.admin.list');
     });
 });

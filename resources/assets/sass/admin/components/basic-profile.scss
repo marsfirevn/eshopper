@@ -1,0 +1,13 @@
+.main-body {
+    .basic-profile {
+        .avatar {
+            height: 145px !important;
+            width: 145px !important;
+            cursor: pointer;
+        }
+
+        .row + .row {
+            margin-top: 16px;
+        }
+    }
+}

@@ -4,5 +4,6 @@
 
 export default {
     logo: '/images/logo.png',
-    webName: 'E-shopper'
+    webName: 'E-shopper',
+    defaultAvatar: '/image/default-avatar.gif'
 }
