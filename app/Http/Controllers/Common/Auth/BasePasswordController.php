@@ -76,7 +76,7 @@ abstract class BasePasswordController extends Controller
      */
     protected function getBroker()
     {
-        return config('auth.guards.' . $this->getGuard() . '.providers');
+        return config('auth.guards.' . $this->getGuard() . '.provider');
     }
 
     /**

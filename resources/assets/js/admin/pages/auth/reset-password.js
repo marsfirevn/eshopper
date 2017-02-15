@@ -27,7 +27,7 @@ class ResetPassword extends React.Component {
 
     onKeyDown(event) {
         if (event.keyCode == 13) {
-            this.reset();
+            this.sendResetPasswordEmail();
         }
     }
 
