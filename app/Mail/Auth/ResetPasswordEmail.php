@@ -3,17 +3,17 @@
 namespace App\Mail\Auth;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ResetPasswordEmail extends Mailable implements ShouldQueue
+class ResetPasswordEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
     protected $email;
     protected $token;
     protected $userType;
+    protected $viewPath;
 
     /**
      * Create a new message instance.
@@ -26,6 +26,7 @@ class ResetPasswordEmail extends Mailable implements ShouldQueue
         $this->email = $email;
         $this->token = $token;
         $this->userType = $userType;
+        $this->viewPath = config('auth.passwords.' . trim(strtolower($userType), 's') . 's.email');
     }
 
     /**
@@ -37,11 +38,7 @@ class ResetPasswordEmail extends Mailable implements ShouldQueue
         $email = $this->email;
         $token = $this->token;
         $type = $this->userType;
-        $view = config('auth.passwords.' . trim(strtolower($type), 's') . 's.email');
 
-        return $this->to($this->email)
-            ->view($view, compact('email', 'token', 'type'))
-            ->onConnection('redis')
-            ->onQueue('emails');
+        return $this->to($this->email)->view($this->viewPath, compact('email', 'token', 'type'));
     }
 }

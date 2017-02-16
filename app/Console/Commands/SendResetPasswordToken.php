@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Mail\Auth\ResetPasswordEmail;
 use Illuminate\Console\Command;
+use Log;
 use Mail;
 
 class SendResetPasswordToken extends Command
@@ -25,5 +26,7 @@ class SendResetPasswordToken extends Command
         $userType = $this->argument('type');
 
         Mail::send(new ResetPasswordEmail($email, $token, $userType));
+
+        Log::info('Send reset password token to ' . $email . 'successfully');
     }
 }
