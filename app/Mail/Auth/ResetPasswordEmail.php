@@ -3,10 +3,11 @@
 namespace App\Mail\Auth;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ResetPasswordEmail extends Mailable
+class ResetPasswordEmail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -36,7 +37,11 @@ class ResetPasswordEmail extends Mailable
         $email = $this->email;
         $token = $this->token;
         $type = $this->userType;
+        $view = config('auth.passwords.' . trim(strtolower($type), 's') . 's.email');
 
-        return $this->to($this->email)->view('emails.auth.password-reset', compact('email', 'token', 'type'));
+        return $this->to($this->email)
+            ->view($view, compact('email', 'token', 'type'))
+            ->onConnection('redis')
+            ->onQueue('emails');
     }
 }

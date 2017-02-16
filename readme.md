@@ -106,3 +106,30 @@ php artisan migrate --database=mysql_testing
 ```
 phpunit --coverage-html coverages
 ```
+## Redis
+- Setup redis:
+```
+wget http://download.redis.io/redis-stable.tar.gz
+tar xvzf redis-stable.tar.gz
+cd redis-stable
+make
+-------------------------------------------------------
+sudo cp src/redis-server /usr/local/bin/
+sudo cp src/redis-cli /usr/local/bin/
+-------------------------------------------------------
+#Or just using:
+sudo make install.
+```
+- Run redis server in localhost: 127.0.0.1:6379 (default)
+```
+redis-server
+# Test server:
+redis-cli ping
+-> PONG
+```
+- Run redis server in background:
+```
+redis-server --daemonize yes
+# Check:
+ps aux | grep redis-server
+```

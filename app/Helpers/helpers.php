@@ -10,10 +10,10 @@ if (! function_exists('get_app_url')) {
     function get_app_url($type = 'web')
     {
         if (str_singular($type) == 'web') {
-            return 'http://' . env('APP_URL');
+            return 'http://' . env('APP_DOMAIN');
         }
 
-        return 'http://' . str_singular($type) . '.' . env('APP_URL');
+        return 'http://' . str_singular($type) . '.' . env('APP_DOMAIN');
     }
 }
 
