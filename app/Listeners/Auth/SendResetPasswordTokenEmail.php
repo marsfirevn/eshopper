@@ -28,7 +28,6 @@ class SendResetPasswordTokenEmail
         $token = $event->token;
         $type = $event->userType;
 
-        $this->commandService
-            ->runBackgroundCommand('email:send-reset-password-token', compact('email', 'token', 'type'));
+        $this->commandService->runBackgroundCommand('email:send-reset-password-token', [$email, $token, $type]);
     }
 }
