@@ -41,7 +41,7 @@
             "tests/WebTestCase.php"
         ],
         "psr-4": {
-            "Tests\\": "Testing/"
+            "Testing\\": "tests/"
         }
     },
     "scripts": {

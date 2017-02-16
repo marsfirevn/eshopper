@@ -27,9 +27,7 @@ Route::group(['domain' => 'admin.' . env('APP_DOMAIN')], function () {
         Route::group(['prefix' => 'password'], function () {
             Route::get('email', 'HomeController@index')->name('admin.auth.password.getResetForm');
             Route::post('email', 'Auth\PasswordController@postEmail')->name('admin.auth.password.email');
-            Route::post('reset', 'Auth\PasswordController@reset')
-                ->name('admin.auth.password.reset')
-                ->middleware('auth');
+            Route::post('reset', 'Auth\PasswordController@reset')->name('admin.auth.password.reset');
         });
 
         Route::group(['prefix' => 'profile'], function () {
