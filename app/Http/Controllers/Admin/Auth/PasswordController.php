@@ -15,7 +15,6 @@ class PasswordController extends BasePasswordController
      */
     public function __construct(AdminRepository $repository)
     {
-        $this->middleware($this->authMiddleware());
         parent::__construct($repository);
     }
 }
