@@ -86,6 +86,10 @@ class BaseProfileController extends Controller
         $this->validate($request, $this->getUpdateProfileRules());
     }
 
+    /**
+     * Get validate update profile request rules
+     * @return array
+     */
     protected function getUpdateProfileRules()
     {
         return [

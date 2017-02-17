@@ -17,6 +17,7 @@ class ProfileController extends BaseProfileController
 
     public function __construct(AdminRepository $repository)
     {
+        $this->middleware($this->authMiddleware());
         parent::__construct($repository);
     }
 }

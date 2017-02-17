@@ -45,4 +45,15 @@ abstract class Controller extends BaseController
     {
         return property_exists($this, 'guard') ? $this->guard : config('auth.defaults.guard');
     }
+
+    /**
+     * Get the auth middleware for the application.
+     * @return string
+     */
+    public function authMiddleware()
+    {
+        $guard = $this->getGuard();
+
+        return $guard ? 'auth:' . $guard : 'auth';
+    }
 }

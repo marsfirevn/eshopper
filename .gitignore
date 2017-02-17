@@ -4,6 +4,7 @@
 /public/build
 /public/css
 /public/js
+/public/coverage
 /vendor
 /.idea
 Homestead.json
