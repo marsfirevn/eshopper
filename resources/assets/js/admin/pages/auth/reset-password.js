@@ -17,6 +17,14 @@ class ResetPassword extends React.Component {
         };
     }
 
+    componentWillMount() {
+        let email = this.props.router.location.query.email;
+        if (email) {
+            let resetDisabled = false;
+            this.setState({email, resetDisabled});
+        }
+    }
+
     onTextFieldChange(attr, event) {
         let state = {};
         state[attr] = event.target.value;

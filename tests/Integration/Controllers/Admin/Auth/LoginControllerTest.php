@@ -23,7 +23,6 @@ class LoginControllerTest extends AdminTestCase
      */
     protected $admin;
     protected $rawPassword = 'admin123';
-    protected $guard = 'admin';
 
     protected function setUp()
     {
@@ -37,8 +36,7 @@ class LoginControllerTest extends AdminTestCase
     public function test_can_get_authentication()
     {
         $this->get("{$this->getBaseUrl()}/auth");
-        $this->assertResponseOk();
-        $this->isJson();
+        $this->assertResponseOk()->isJson();
         $this->seeJsonStructure(['loggedIn', 'user']);
     }
 
@@ -50,7 +48,7 @@ class LoginControllerTest extends AdminTestCase
         $credentials = $this->makePostLoginData();
         $loggedIn = $this->post(route('admin.auth.postLogin'), $credentials);
         $loggedIn->assertResponseOk()->isJson();
-        $loggedIn->seeIsAuthenticated($this->guard);
+        $loggedIn->seeIsAuthenticated($this->getGuard());
         $loggedIn->seeJsonStructure([
             'user' => ['id', 'email', 'first_name', 'last_name', 'avatar'],
         ]);
@@ -64,7 +62,7 @@ class LoginControllerTest extends AdminTestCase
         $accountWasBlocked = $this->post(route('admin.auth.postLogin'), $credentials);
         $accountWasBlocked->assertResponseStatus(403)->isJson();
         $accountWasBlocked->seeJsonStructure(['error']);
-        $accountWasBlocked->dontSeeIsAuthenticated($this->guard);
+        $accountWasBlocked->dontSeeIsAuthenticated($this->getGuard());
     }
 
     /**

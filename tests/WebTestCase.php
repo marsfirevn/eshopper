@@ -10,5 +10,12 @@ namespace Testing;
 
 abstract class WebTestCase extends TestCase
 {
-
+    /**
+     * Get current guard name
+     * @return string
+     */
+    protected function getGuard()
+    {
+        return 'web';
+    }
 }

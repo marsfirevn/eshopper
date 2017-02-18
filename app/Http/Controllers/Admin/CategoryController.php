@@ -2,14 +2,23 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Entities\Category;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class CategoryController extends Controller
 {
-    public function index(Request $request)
+    protected $guard = 'admin';
+
+    public function __construct()
     {
-        $categories = factory(Category::class, 5)->create();
+        $this->middleware($this->authMiddleware());
+    }
+
+    /**
+     * Admin list
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function index()
+    {
+        return view('admin.index');
     }
 }

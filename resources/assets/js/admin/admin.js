@@ -10,6 +10,7 @@ import App from './components/app';
 import Login from './pages/auth/login';
 import Dashboard from './pages/dashboard';
 import ResetPassword from './pages/auth/reset-password';
+import UpdateNewPassword from './pages/auth/update-new-password';
 import AdminProfile from './pages/profile/admin-profile';
 
 injectTapEventPlugin();
@@ -60,6 +61,7 @@ let routes = (
                 onEnter={authenticated}
             />
             <Route path="password/email" component={ResetPassword}/>
+            <Route path="password/reset/:token" component={UpdateNewPassword}/>
 
             <Route path="" onEnter={requireAuth}>
                 <IndexRedirect to='dashboard'/>
