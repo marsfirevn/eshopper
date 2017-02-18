@@ -11,4 +11,12 @@ namespace Testing;
 abstract class AdminTestCase extends TestCase
 {
     protected $prefixDomain = 'admin';
+
+    /**
+     * Get guard name
+     */
+    protected function getGuard()
+    {
+        return 'admin';
+    }
 }

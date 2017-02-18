@@ -21,7 +21,6 @@ class Login extends React.Component {
 
     componentWillMount() {
         let email = this.props.router.location.query.email;
-
         if (email) {
             this.setState({email});
         }
@@ -123,7 +122,16 @@ class Login extends React.Component {
                         </div>
                     </div>
                     <div className="center">
-                        <Link to="/password/email" className="forgot-password">Forgot your password?</Link>
+                        <Link
+                            className="forgot-password"
+                            to={
+                                this.state.email.length == 0
+                                    ? '/password/email'
+                                    : `/password/email?email=${this.state.email}`
+                            }
+                        >
+                            Forgot your password?
+                        </Link>
                         <RaisedButton
                             className="btn-login"
                             label="Login"

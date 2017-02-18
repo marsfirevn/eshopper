@@ -1,5 +1,7 @@
 const elixir = require('laravel-elixir');
 
+process.env.DISABLE_NOTIFIER = true;
+
 elixir((mix) => {
     mix.browserify('admin/admin.js')
         .browserify('web/web.js')

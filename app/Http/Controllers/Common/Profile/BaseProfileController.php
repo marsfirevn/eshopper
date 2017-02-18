@@ -98,12 +98,4 @@ class BaseProfileController extends Controller
             'password' => 'string|confirmed',
         ];
     }
-
-    /**
-     * Get table
-     */
-    public function getBroker()
-    {
-        return config('auth.guards.' . $this->getGuard() . '.providers');
-    }
 }

@@ -11,6 +11,7 @@ namespace Testing\Integration\Controllers\Admin;
 use App\Entities\Admin;
 use Faker\Factory;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Http\UploadedFile;
 use Testing\AdminTestCase;
 
 class ProfileControllerTest extends AdminTestCase
@@ -35,14 +36,16 @@ class ProfileControllerTest extends AdminTestCase
     {
         $postUpdateData = $this->makePostUpdateProfileData();
         $dataCheckAfterUpdate = array_except($postUpdateData, ['password', 'password_confirmation']);
+        $pathAvatar = __DIR__ . '/../../../../storage/files/test-avatar.jpg';
+        $avatar = new UploadedFile($pathAvatar, 'test-avatar.jpg', 'jpeg');
 
         $notLoginCase = $this->put("{$this->getBaseUrl()}/profile", $postUpdateData);
         $notLoginCase->assertRedirectedTo(route('admin.auth.getLogin'));
 
         $this->setAuthUser('admin');
-        $loggedIn = $this->put("{$this->getBaseUrl()}/profile", $postUpdateData);
-        $loggedIn->assertResponseOk()->isJson();
-        $loggedIn->seeInDatabase('admins', $dataCheckAfterUpdate);
+        $loggedIn = $this->call('PUT', "{$this->getBaseUrl()}/profile", $postUpdateData, [], compact('avatar'));
+        $loggedIn->isSuccessful();
+        $this->seeInDatabase('admins', $dataCheckAfterUpdate);
     }
 
     /**
