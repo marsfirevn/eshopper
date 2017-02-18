@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers\Common\Auth;
 
+use App\Core\Repositories\Contracts\RepositoryInterface;
 use App\Core\Repositories\Repository;
 use App\Entities\BaseUser;
 use App\Events\Auth\ResetPasswordTokenCreated;
@@ -30,9 +31,9 @@ abstract class BasePasswordController extends Controller
 
     /**
      * BasePasswordController constructor.
-     * @param Repository $repository
+     * @param RepositoryInterface $repository
      */
-    public function __construct(Repository $repository)
+    public function __construct(RepositoryInterface $repository)
     {
         $this->repository = $repository;
     }
@@ -146,7 +147,7 @@ abstract class BasePasswordController extends Controller
     protected function invalidToken($providedUsername, $token)
     {
         $broker = $this->getBroker();
-        return ! Password::broker($broker)->tokenExists(Password::broker($broker)->getUser($providedUsername), $token);
+        return !Password::broker($broker)->tokenExists(Password::broker($broker)->getUser($providedUsername), $token);
     }
 
     /**

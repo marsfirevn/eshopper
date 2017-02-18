@@ -8,13 +8,18 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Core\Repositories\AdminRepository;
+use App\Core\Repositories\Contracts\AdminRepositoryInterface as AdminRepository;
+use App\Core\Repositories\Contracts\AdminRepositoryInterface;
 use App\Http\Controllers\Common\Profile\BaseProfileController;
 
 class ProfileController extends BaseProfileController
 {
     protected $guard = 'admin';
 
+    /**
+     * ProfileController constructor.
+     * @param AdminRepositoryInterface $repository
+     */
     public function __construct(AdminRepository $repository)
     {
         $this->middleware($this->authMiddleware());

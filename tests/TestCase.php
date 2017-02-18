@@ -60,11 +60,31 @@ abstract class TestCase extends BaseTestCase
      */
     public function setAuthUser($guard, array $attributes = [])
     {
-        $entity = 'App\\Entities\\' . ucfirst($guard);
+        $entity = $this->getEntity($guard);
         $user = factory($entity)->create($attributes);
         $this->actingAs($user, $guard);
 
         return $user;
+    }
+
+    /**
+     * Logout user
+     * @param $guard
+     */
+    public function unsetAuthUser($guard)
+    {
+        \Auth::guard($guard)->logout();
+    }
+
+    /**
+     * Get table name of user
+     * @param $guard
+     * @return null|string
+     */
+    protected function getEntity($guard)
+    {
+        $table = config('auth.guards.' . $guard . '.provider');
+        return config('auth.providers.' . $table . '.model');
     }
 
     /**

@@ -1,13 +1,17 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: huukimit
+ * Date: 19/02/2017
+ * Time: 10:13
+ */
 
 namespace App\Core\Repositories;
 
+use App\Core\Repositories\Contracts\CustomerRepositoryInterface;
 use App\Entities\Customer;
-use App\Core\Repositories\Traits\PasswordTrait;
 
-class CustomerRepository extends Repository
+class CustomerRepository extends Repository implements CustomerRepositoryInterface
 {
-    use PasswordTrait;
-
-    protected $entityName = Customer::class;
+    protected $modelName = Customer::class;
 }

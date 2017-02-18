@@ -39,17 +39,18 @@ class ProfileControllerTest extends AdminTestCase
         $pathAvatar = __DIR__ . '/../../../../storage/files/test-avatar.jpg';
         $avatar = new UploadedFile($pathAvatar, 'test-avatar.jpg', 'jpeg');
 
-        $notLoginCase = $this->put("{$this->getBaseUrl()}/profile", $postUpdateData);
+        $notLoginCase = $this->put(route('api.admin.profile.update'), $postUpdateData);
         $notLoginCase->assertRedirectedTo(route('admin.auth.getLogin'));
 
         $this->setAuthUser('admin');
-        $loggedIn = $this->call('PUT', "{$this->getBaseUrl()}/profile", $postUpdateData, [], compact('avatar'));
+        $loggedIn = $this->call('PUT', route('api.admin.profile.update'), $postUpdateData, [], compact('avatar'));
         $loggedIn->isSuccessful();
         $this->seeInDatabase('admins', $dataCheckAfterUpdate);
     }
 
     /**
      * Make post update profile data to test
+     *
      * @return array
      */
     protected function makePostUpdateProfileData()

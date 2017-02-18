@@ -27,6 +27,7 @@ script:
   - cp .env.travis .env
   - php artisan key:generate
   - sudo chmod -R 777 storage
+  - sudo chmod -R 777 bootstrap/cache
   - gulp
   - mysql -e 'create database eshopper'
   - mysql -e 'create database test_eshopper'

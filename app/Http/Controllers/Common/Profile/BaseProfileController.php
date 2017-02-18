@@ -8,7 +8,8 @@
 
 namespace App\Http\Controllers\Common\Profile;
 
-use App\Core\Repositories\Repository;
+use App\Core\Repositories\Contracts\RepositoryInterface as Repository;
+use App\Core\Repositories\Contracts\RepositoryInterface;
 use App\Core\Uploader\AvatarUploader;
 use App\Entities\BaseUser;
 use App\Http\Controllers\Controller;
@@ -20,7 +21,7 @@ class BaseProfileController extends Controller
 
     /**
      * BaseProfileController constructor.
-     * @param Repository $repository
+     * @param RepositoryInterface $repository
      */
     public function __construct(Repository $repository)
     {

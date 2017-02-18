@@ -3,7 +3,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2017-02-16.
+    * Generated on 2017-02-19.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -40,6 +40,8 @@ namespace PHPSTORM_META {
             'view' instanceof \Illuminate\View\Factory,
             'debugbar' instanceof \Barryvdh\Debugbar\LaravelDebugbar,
             'command.debugbar.clear' instanceof \Barryvdh\Debugbar\Console\ClearCommand,
+            'App\Core\Repositories\Contracts\AdminRepositoryInterface' instanceof \App\Core\Repositories\AdminRepository,
+            'App\Core\Repositories\Contracts\CustomerRepositoryInterface' instanceof \App\Core\Repositories\CustomerRepository,
             'blade.compiler' instanceof \Illuminate\View\Compilers\BladeCompiler,
             'Illuminate\Broadcasting\BroadcastManager' instanceof \Illuminate\Broadcasting\BroadcastManager,
             'Illuminate\Contracts\Broadcasting\Broadcaster' instanceof \Illuminate\Broadcasting\Broadcasters\LogBroadcaster,
@@ -157,6 +159,8 @@ namespace PHPSTORM_META {
             'view' instanceof \Illuminate\View\Factory,
             'debugbar' instanceof \Barryvdh\Debugbar\LaravelDebugbar,
             'command.debugbar.clear' instanceof \Barryvdh\Debugbar\Console\ClearCommand,
+            'App\Core\Repositories\Contracts\AdminRepositoryInterface' instanceof \App\Core\Repositories\AdminRepository,
+            'App\Core\Repositories\Contracts\CustomerRepositoryInterface' instanceof \App\Core\Repositories\CustomerRepository,
             'blade.compiler' instanceof \Illuminate\View\Compilers\BladeCompiler,
             'Illuminate\Broadcasting\BroadcastManager' instanceof \Illuminate\Broadcasting\BroadcastManager,
             'Illuminate\Contracts\Broadcasting\Broadcaster' instanceof \Illuminate\Broadcasting\Broadcasters\LogBroadcaster,
@@ -274,6 +278,8 @@ namespace PHPSTORM_META {
             'view' instanceof \Illuminate\View\Factory,
             'debugbar' instanceof \Barryvdh\Debugbar\LaravelDebugbar,
             'command.debugbar.clear' instanceof \Barryvdh\Debugbar\Console\ClearCommand,
+            'App\Core\Repositories\Contracts\AdminRepositoryInterface' instanceof \App\Core\Repositories\AdminRepository,
+            'App\Core\Repositories\Contracts\CustomerRepositoryInterface' instanceof \App\Core\Repositories\CustomerRepository,
             'blade.compiler' instanceof \Illuminate\View\Compilers\BladeCompiler,
             'Illuminate\Broadcasting\BroadcastManager' instanceof \Illuminate\Broadcasting\BroadcastManager,
             'Illuminate\Contracts\Broadcasting\Broadcaster' instanceof \Illuminate\Broadcasting\Broadcasters\LogBroadcaster,
@@ -391,6 +397,8 @@ namespace PHPSTORM_META {
             'view' instanceof \Illuminate\View\Factory,
             'debugbar' instanceof \Barryvdh\Debugbar\LaravelDebugbar,
             'command.debugbar.clear' instanceof \Barryvdh\Debugbar\Console\ClearCommand,
+            'App\Core\Repositories\Contracts\AdminRepositoryInterface' instanceof \App\Core\Repositories\AdminRepository,
+            'App\Core\Repositories\Contracts\CustomerRepositoryInterface' instanceof \App\Core\Repositories\CustomerRepository,
             'blade.compiler' instanceof \Illuminate\View\Compilers\BladeCompiler,
             'Illuminate\Broadcasting\BroadcastManager' instanceof \Illuminate\Broadcasting\BroadcastManager,
             'Illuminate\Contracts\Broadcasting\Broadcaster' instanceof \Illuminate\Broadcasting\Broadcasters\LogBroadcaster,
