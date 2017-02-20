@@ -35,7 +35,7 @@ class LoginControllerTest extends AdminTestCase
      */
     public function test_can_get_authentication()
     {
-        $this->get("{$this->getBaseUrl()}/auth");
+        $this->get(route('api.admin.auth.getAuth'));
         $this->assertResponseOk()->isJson();
         $this->seeJsonStructure(['loggedIn', 'user']);
     }
@@ -46,20 +46,26 @@ class LoginControllerTest extends AdminTestCase
     public function test_admin_can_login()
     {
         $credentials = $this->makePostLoginData();
-        $loggedIn = $this->post(route('admin.auth.postLogin'), $credentials);
+        $credentialInvalidEmail = $this->makePostLoginData($randomEmail = true);
+
+        $notExistsEmail = $this->post(route('api.admin.auth.postLogin'), $credentialInvalidEmail);
+        $notExistsEmail->assertResponseStatus(422)->isJson();
+        $notExistsEmail->seeJsonStructure(['error']);
+
+        $loggedIn = $this->post(route('api.admin.auth.postLogin'), $credentials);
         $loggedIn->assertResponseOk()->isJson();
         $loggedIn->seeIsAuthenticated($this->getGuard());
         $loggedIn->seeJsonStructure([
             'user' => ['id', 'email', 'first_name', 'last_name', 'avatar'],
         ]);
 
-        $credentialInvalidEmail = $this->makePostLoginData($randomEmail = true);
-        $notExistsEmail = $this->post(route('admin.auth.postLogin'), $credentialInvalidEmail);
-        $notExistsEmail->assertResponseStatus(422)->isJson();
-        $notExistsEmail->seeJsonStructure(['error']);
+        // Logged in:
+        $onlyGuest = $this->get(route('admin.auth.getLogin'), $credentials);
+        $onlyGuest->assertResponseStatus(302);
 
+        $this->unsetAuthUser($this->getGuard());
         $this->blockCurrentAdmin();
-        $accountWasBlocked = $this->post(route('admin.auth.postLogin'), $credentials);
+        $accountWasBlocked = $this->post(route('api.admin.auth.postLogin'), $credentials);
         $accountWasBlocked->assertResponseStatus(403)->isJson();
         $accountWasBlocked->seeJsonStructure(['error']);
         $accountWasBlocked->dontSeeIsAuthenticated($this->getGuard());

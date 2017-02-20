@@ -19,6 +19,7 @@ class PasswordControllerTest extends AdminTestCase
 
     /**
      * Admin instance to test
+     *
      * @var Admin $admin
      */
     protected $admin;
@@ -45,7 +46,7 @@ class PasswordControllerTest extends AdminTestCase
      */
     public function test_admin_can_send_request_reset_password()
     {
-        $postedEmail = $this->post(route('admin.auth.password.postEmail'), ['email' => $this->admin->email]);
+        $postedEmail = $this->post(route('api.admin.auth.password.postEmail'), ['email' => $this->admin->email]);
         $postedEmail->assertResponseOk()->isJson();
     }
 
@@ -58,7 +59,10 @@ class PasswordControllerTest extends AdminTestCase
         $existsTokenData = array_only($postUpdatePassword, ['email', 'token']);
 
         $this->seeInDatabase($this->passwordsTable(), $existsTokenData);
-        $changedPassword = $this->put(route('admin.auth.password.resetPassword', $this->token), $postUpdatePassword);
+        $changedPassword = $this->put(
+            route('api.admin.auth.password.resetPassword', $this->token),
+            $postUpdatePassword
+        );
         $changedPassword->assertResponseOk()->isJson();
         $changedPassword->dontSeeInDatabase($this->passwordsTable(), $existsTokenData);
     }
@@ -95,6 +99,7 @@ class PasswordControllerTest extends AdminTestCase
 
     /**
      * Get password reset table for current guard
+     *
      * @return mixed
      */
     protected function passwordsTable()

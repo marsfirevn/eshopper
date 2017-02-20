@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Auth;
 
-use App\Core\Repositories\AdminRepository;
+use App\Core\Repositories\Contracts\AdminRepositoryInterface;
 use App\Http\Controllers\Common\Auth\BasePasswordController;
 
 class PasswordController extends BasePasswordController
@@ -11,9 +11,9 @@ class PasswordController extends BasePasswordController
 
     /**
      * PasswordController constructor.
-     * @param AdminRepository $repository
+     * @param AdminRepositoryInterface $repository
      */
-    public function __construct(AdminRepository $repository)
+    public function __construct(AdminRepositoryInterface $repository)
     {
         parent::__construct($repository);
     }

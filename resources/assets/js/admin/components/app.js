@@ -12,6 +12,7 @@ class App extends React.Component {
         super(props);
         autobind(this);
 
+        this.store = {};
         this.state = {
             auth: props.auth.user
         };
@@ -39,6 +40,16 @@ class App extends React.Component {
 
     login(credential, callback) {
         this.props.auth.login(credential, callback);
+    }
+
+    getStore(key) {
+        return key ? this.store[key] || null : this.store;
+    }
+
+    updateStore(key, value) {
+        if (key) {
+            this.store[key] = value;
+        }
     }
 
     render() {

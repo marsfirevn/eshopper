@@ -21,7 +21,7 @@ class AdminProfile extends React.Component {
         formData.append('_method', 'PUT');
 
         $.ajax({
-            url: '/profile',
+            url: '/api/profile',
             type: 'POST',
             data: formData,
             contentType: false,
@@ -68,10 +68,6 @@ class AdminProfile extends React.Component {
     }
 
     render() {
-        if (!this.context.auth) {
-            return null;
-        }
-
         let profile = this.context.auth;
 
         return (

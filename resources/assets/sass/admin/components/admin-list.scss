@@ -1,0 +1,21 @@
+.list {
+    .table {
+        * {
+            font-size: 14px !important;
+        }
+        .table-header {
+            background: rgb(74, 74, 74);
+            th {
+                font-size: 16px !important;
+            }
+        }
+        .actions {
+            span {
+                display: inline;
+            }
+            span + span {
+                margin-left: 10px;
+            }
+        }
+    }
+}

@@ -4,7 +4,7 @@ import $ from 'jquery';
 export class Auth {
     getAuth(callback) {
         $.ajax({
-            url: '/auth',
+            url: '/api/auth',
             type: 'GET',
             success: (response) => {
                 this.loggedIn = response.loggedIn;
@@ -35,7 +35,7 @@ export class Auth {
 
     login(credential, callback) {
         $.ajax({
-            url: '/login',
+            url: '/api/login',
             method: 'POST',
             data: credential,
             success: (response) => {

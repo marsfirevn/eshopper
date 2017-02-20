@@ -1,254 +1,164 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: huukimit
+ * Date: 19/02/2017
+ * Time: 07:46
+ */
 
 namespace App\Core\Repositories;
 
-use Exception;
-use Carbon\Carbon;
+use App\Core\Repositories\Contracts\RepositoryInterface;
+use App\Core\Repositories\Exceptions\RepositoryException;
+use App\Entities\BaseUser;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 /**
- * @property-read string $entityName
+ * Class Repository
+ *
+ * @package App\Core\NewRepositories
+ * @property Model $model
+ * @property string $modelName
  */
-abstract class Repository
+abstract class Repository implements RepositoryInterface
 {
     /**
-     * The entity.
-     * @var object
+     * @var Model
      */
-    protected $entity;
+    protected $model;
 
     /**
-     * Create new repository instance.
+     * Repository constructor.
+     *
+     * @throws RepositoryException
      */
     public function __construct()
     {
-        $this->makeEntity();
+        $this->makeModel();
     }
 
     /**
-     * Make entity by specified name.
-     * @throws Exception
+     * Make model instance
+     *
+     * @return Model
+     * @throws RepositoryException
      */
-    public function makeEntity()
+    public function makeModel()
     {
-        if (! property_exists($this, 'entityName')) {
-            throw new Exception('Class' . get_class($this) . ' must provide an attribute called \'entityName\'');
+        $model = app($this->model());
+
+        if (!$model instanceof Model) {
+            $msg = "Class {$this->model()} must be an instance of Illuminate\\Database\\Eloquent\\Model";
+            throw new RepositoryException($msg);
         }
 
-        $entity = app($this->entityName);
+        return $this->model = $model;
+    }
 
-        if (! $entity instanceof Model) {
-            throw new Exception($this->entityName . ' must be an instance of Illuminate\\Database\\Eloquent\\Model');
+    /**
+     * Specify Model class name
+     *
+     * @return string
+     * @throws RepositoryException
+     */
+    public function model()
+    {
+        if (!property_exists($this, 'modelName')) {
+            $message = 'Class' . get_class($this) . ' must provide an attribute called \'modelName\'';
+            throw new RepositoryException($message);
         }
 
-        $this->setEntity($entity);
+        return $this->modelName;
     }
 
     /**
-     * Return the query builder order by the specified attribute
-     * @param  string $attr
-     * @param  string $dir
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function orderBy($attr, $dir = 'asc')
-    {
-        return $this->entity->orderBy($attr, $dir);
-    }
-
-    /**
-     * Get all available model instances.
-     * @param  array $columns
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public function all($columns = ['*'])
-    {
-        return $this->entity->all($columns);
-    }
-
-    /**
-     * Find a model instance by its attribute.
-     * @param  string $attribute
-     * @param  mixed $value
-     * @param  bool $shouldThrowException
-     * @return mixed
-     */
-    public function findBy($attribute, $value, $shouldThrowException = true)
-    {
-        $query = $this->entity->where($attribute, $value);
-
-        return $shouldThrowException ? $query->firstOrFail() : $query->first();
-    }
-
-    /**
-     * Find a model instance by its ID.
-     * @param  int $id
-     * @return mixed
-     */
-    public function findById($id)
-    {
-        return $this->entity->findOrFail($id);
-    }
-
-    /**
-     * Find entities by their attribute values.
-     * @param  string $attribute
-     * @param  array $values
-     * @param  array $columns
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public function whereIn($attribute, array $values, $columns = ['*'])
-    {
-        return $this->entity->whereIn($attribute, $values)->get($columns);
-    }
-
-    /**
-     * Find data by multiple fields
-     * @param array $where
+     * @param $id
      * @param array $columns
      * @return mixed
      */
-    public function where(array $where, $columns = ['*'])
+    public function findById($id, $columns = ['*'])
     {
-        $this->applyConditions($where);
-        $data = $this->entity->get($columns);
-        $this->resetEntity();
-        return $data;
+        return $this->model->find($id, $columns);
+    }
+
+    /**
+     * @param $attribute
+     * @param $value
+     * @param array $columns
+     * @return Model|null
+     */
+    public function findBy($attribute, $value, $columns = ['*'])
+    {
+        return $this->model->where($attribute, '=', $value)->first($columns);
+    }
+
+    /**
+     * @param array $columns
+     * @return Collection
+     */
+    public function all($columns = ['*'])
+    {
+        return $this->model->get($columns);
+    }
+
+    /**
+     * @param int $perPage
+     * @param array $columns
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function paginate($perPage = 15, $columns = ['*'])
+    {
+        return $this->model->paginate($perPage, $columns);
+    }
+
+    /**
+     * @param array $data
+     * @return Model
+     */
+    public function create(array $data)
+    {
+        return $this->model->create($data);
+    }
+
+    /**
+     * @param array $data
+     * @param int|Model $id
+     * @param string $attribute
+     * @return int Number of updated
+     */
+    public function update(array $data, $id, $attribute = 'id')
+    {
+        if (is_object($id)) {
+            $id = $attribute === 'id' ? $id->id : $id->{$attribute};
+        }
+
+        return $this->model->where($attribute, '=', $id)->update($data);
+    }
+
+    /**
+     * @param $id
+     * @return int Number of records deleted
+     */
+    public function delete($id)
+    {
+        return $this->model->destroy($id);
     }
 
     /**
      * Applies the given where conditions to the model.
-     * @param array $where
-     * @return void
+     *
+     * @param array $where Support ['field' => 'value', 'field2' => ['field2', '>=', 5]]
      */
     protected function applyConditions(array $where)
     {
         foreach ($where as $field => $value) {
             if (is_array($value)) {
                 list($field, $condition, $val) = $value;
-                $this->entity = $this->entity->where($field, $condition, $val);
+                $this->model = $this->model->where($field, $condition, $val);
             } else {
-                $this->entity = $this->entity->where($field, '=', $value);
+                $this->model = $this->model->where($field, '=', $value);
             }
         }
-    }
-
-    /**
-     * Create new model instance.
-     * @param  array $data
-     * @return Model
-     */
-    public function create(array $data)
-    {
-        return $this->entity->create($data);
-    }
-
-    /**
-     * Update a model instance.
-     * @param  array $data
-     * @param  int|object $id
-     * @param  string $attribute
-     * @return mixed
-     */
-    public function update($data, $id, $attribute = 'id')
-    {
-        $fillableFields = $this->entity->getFillable();
-        $data = array_only($data, $fillableFields);
-        $id = is_object($id) ? $id->getKey() : $id;
-        $this->entity->where($attribute, $id)->first()->update($data);
-
-        return $this->findBy($attribute, $id);
-    }
-
-    /**
-     * Update or Create an entity in repository
-     * @throws ValidatorException
-     * @param array $attributes
-     * @param array $values
-     * @return mixed
-     */
-    public function updateOrCreate(array $attributes, array $values = [])
-    {
-        $entity = $this->entity->updateOrCreate($attributes, $values);
-        $this->resetEntity();
-
-        return $entity;
-    }
-
-    /**
-     * Delete an model instance.
-     * @param  int|object $model
-     * @return int
-     */
-    public function delete($model)
-    {
-        $modelKey = is_object($model) ? $model->getKey() : $model;
-
-        return $this->entity->destroy($modelKey);
-    }
-
-    /**
-     * Get the paginated list of latest model instances.
-     * @param  integer $limit
-     * @param  array|string $eagerLoad
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
-     */
-    public function getLatestEntities($limit = null, $eagerLoad = [])
-    {
-        $limit = is_null($limit) ? config('common.pagination_per_page') : $limit;
-
-        return $this->entity->with($eagerLoad)->latest()->paginate($limit);
-    }
-
-    /**
-     * Insert new record for the given model.
-     * @param  array $data
-     * @return int
-     */
-    public function insert(array $data)
-    {
-        return $this->entity->insert($data);
-    }
-
-    /**
-     * Batch inserting multiple database records.
-     * @param  array $collection
-     * @param  bool $returnLastId
-     * @return int|void
-     */
-    public function batchInsert(array $collection, $returnLastId = true)
-    {
-        $records = array_map(function ($item) {
-            $now = Carbon::now();
-            $item[Model::CREATED_AT] = $now;
-            $item[Model::UPDATED_AT] = $now;
-
-            return $item;
-        }, $collection);
-
-        $this->insert($records);
-
-        if ($returnLastId) {
-            return $this->entity->max($this->entity->getKeyName());
-        }
-    }
-
-    /**
-     * Sets the value of entity name.
-     * @param Model $entity
-     * @return self
-     */
-    protected function setEntity($entity)
-    {
-        $this->entity = $entity;
-
-        return $this;
-    }
-
-    /**
-     * @throws RepositoryException
-     */
-    public function resetEntity()
-    {
-        $this->makeEntity();
     }
 }

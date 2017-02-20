@@ -12,6 +12,8 @@ import Dashboard from './pages/dashboard';
 import ResetPassword from './pages/auth/reset-password';
 import UpdateNewPassword from './pages/auth/update-new-password';
 import AdminProfile from './pages/profile/admin-profile';
+import AdminContainer from './pages/admin/container';
+import AdminList from './pages/admin/admin-list';
 
 injectTapEventPlugin();
 
@@ -70,7 +72,9 @@ let routes = (
                 <Route path='products' component={Dashboard}/>
                 <Route path='categories' component={Dashboard}/>
                 <Route path='customers' component={Dashboard}/>
-                <Route path='admins' component={Dashboard}/>
+                <Route path='admins' component={AdminContainer}>
+                    <Route path='/' component={AdminList}/>
+                </Route>
                 <Route path='profile' component={AdminProfile}/>
             </Route>
         </Route>
